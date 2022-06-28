@@ -1,3 +1,4 @@
+
 #truy cập, xử lí file hệ thống
 import os
 #Chuyển văn bản thành âm thanh
@@ -37,8 +38,11 @@ root = Tk()
 text_area = Text(root, height=26, width=45)
 scroll = Scrollbar(root, command=text_area.yview)
 
+def stop():
+    speak("tạm dừng ...")
+
 def speak(text):
-    print("AI:  {}".format(text))
+    print("Sun:  {}".format(text))
     text_area.insert(INSERT,"AI: "+text+"\n")
     tts = gTTS(text=text, lang='vi', slow=False)
     tts.save("sound.mp3")
@@ -48,7 +52,7 @@ def speak(text):
 def get_audio():
     playsound.playsound("Ping.mp3", False)
     time.sleep(1)
-    print("\nAi:  Đang nghe ...")
+    print("\nSun:  Đang nghe ...")
     r = speech_recognition.Recognizer()
     with speech_recognition.Microphone() as source:
         print("You: ")
@@ -60,20 +64,7 @@ def get_audio():
         except:
             print("\n")
             return ""
-#!!!!
-def stop():
-    speak("Hẹn gặp lại bạn sau!")
 
-def get_text():
-    for i in range(3):
-        text = get_audio()
-        if text:
-            return text.lower()
-        elif i < 2:
-            speak("Chessy không nghe rõ. Bạn nói lại được không!")
-        time.sleep(2)
-        stop()
-        return 0
 #!!!!!
 
 def hello():
@@ -84,13 +75,13 @@ def hello():
     label1.place(x=7, y=43)
     day_time = int(strftime('%H'))
     if day_time < 11:
-        speak("Chào buổi sáng tốt lành.AI có thể giúp gì được cho bạn.")
+        speak("Chào buổi sáng. Mình có thể giúp gì được cho bạn.")
     elif 11 <= day_time < 13:
-        speak("Chào buổi trưa tốt lành.AI có thể giúp gì được cho bạn.")
+        speak("Chào buổi trưa. Mình có thể giúp gì được cho bạn.")
     elif 13 <= day_time < 18:
-        speak("Chào buổi chiều tốt lành.AI có thể giúp gì được cho bạn.")
+        speak("Chào buổi chiều. Mình có thể giúp gì được cho bạn.")
     else:
-        speak("Chào buổi tối tốt lành.AI có thể giúp gì được cho bạn.")
+        speak("Chào buổi tối. Mình có thể giúp gì được cho bạn.")
     root.update()
     time.sleep(5)
 
@@ -101,7 +92,8 @@ def get_time(text):
     elif "ngày" in text:
         speak("Hôm nay là ngày %d tháng %d năm %d" % (now.day, now.month, now.year))
     else:
-        speak("Chessy chưa hiểu ý của bạn. Bạn nói lại được không?")
+        speak("Mình chưa hiểu ý của bạn. Bạn nói lại được không?")
+    time.sleep(2)
 
 def open_application(text):
     if "google" in text:
@@ -113,8 +105,13 @@ def open_application(text):
     elif "garena" in text:
         speak("Mở Garena")
         os.startfile('C:\\Program Files (x86)\\Garena\\Garena\\Garena.exe')
+    elif "steam" in text:
+        speak("Mở steam")
+        os.startfile('C:\\Users\\ASUS\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam')
     else:
         speak("Ứng dụng chưa được cài đặt. Bạn hãy thử lại!")
+    root.update()
+    time.sleep(6)
 
 def open_website(text):
     image_1 = ImageTk.PhotoImage(Image.open("image\\AI_py3.png"))    
@@ -129,7 +126,7 @@ def open_website(text):
         webbrowser.open(url)
         speak("Trang web bạn yêu cầu đã được mở.")
     else:
-        webbrowser.open("https://tuvannguyen.000webhostapp.com")
+        webbrowser.open("http://hus.vnu.edu.vn/")
         speak("Trang web của bạn được mở.")
     root.update()
     time.sleep(5)
@@ -141,7 +138,7 @@ def open_google_and_search(text):
     label1.place(x=7, y=43)
 
     search_for = text.split("kiếm", 1)[1]
-    speak('AI đang tìm kiếm giúp bạn')
+    speak('Mình đang tìm kiếm giúp bạn')
     driver = webdriver.Chrome(path)
     driver.get("http://www.google.com")
     que = driver.find_element_by_xpath("//input[@name='q']")
@@ -150,6 +147,7 @@ def open_google_and_search(text):
     root.update()
     time.sleep(5)
 
+#thời tiết
 def weather(text):
     temp="Trời quang mây tạnh"
     if "moderate rain" in text:
@@ -256,9 +254,9 @@ def sleep_time(x):
     else :
         time.sleep(21)
 
-
+#Tinh 
 def get_math():
-    speak("Bạn nói phép tính đi, AI sẽ giúp bạn.")
+    speak("Bạn nói phép tính đi, mình sẽ giúp bạn.")
     root.update()
     time.sleep(4)
     text1=get_audio()
@@ -328,14 +326,14 @@ def get_math():
     
     time.sleep(6)
 
-
+#tim kiem tren 
 def youtube_search():
     image_1 = ImageTk.PhotoImage(Image.open("image\\AI_py3.png"))    
     label1 = Label(image=image_1)
     label1.image = image_1
     label1.place(x=7, y=43)
 
-    speak('Xin mời bạn chọn tên để tìm kiếm trên youtube')
+    speak("Xin mời bạn chọn tên để tìm kiếm trên youtube")
     root.update()
     time.sleep(3.5)
     text = get_audio()
@@ -359,6 +357,45 @@ def youtube_search():
             speak("Yêu cầu của bạn đã hoàn thành.")
         time.sleep(7)   
 
+
+#Hien thi 
+def subject_day(text):
+    image1 = Image.open("image\\TKB.png")
+    image_1 = ImageTk.PhotoImage(image1)    
+    label1 = Label(image=image_1)
+    label1.image = image_1
+    label1.place(x=7, y=43)
+    if "thứ hai" in text:
+        speak("Thứ Hai: tiết 1, 2 có môn Giải tích 2; tiết 6, 7 có môn Kinh tế chính trị")
+        root.update()
+        sleep_time(1)
+    elif "thứ ba" in text:
+        speak("Thứ Ba: tiết 4, 5 có môn Python; tiết 6, 7 có môn Tư tưởng Hồ Chí Minh ")
+        root.update()
+        sleep_time(2)
+    elif "thứ tư" in text:
+        speak("Thứ Tư: tiết 1, 2 có môn Nhiệt động học và vật lý phân tử ")
+        root.update()
+        sleep_time(3)
+    elif "thứ năm" in text:
+        speak("Thứ Năm: tiết 4, 5 có môn Tin học cơ sở ")
+        root.update()
+        sleep_time(4)
+    elif "thứ sáu" in text:
+        speak("Thứ Sáu tiết 3, 4, 5 có môn Nhập môn Robotics ")
+        root.update()
+        sleep_time(5)
+    elif "thứ bảy" in text:
+        speak("Thứ Bảy bạn được nghỉ ")
+        root.update()
+        sleep_time(6)
+    elif "chủ nhật" in text:
+        speak("Chủ nhật bạn được nghỉ ")
+        root.update()
+        sleep_time(0)
+
+
+#Tha thinh 
 def love_you():
     image_1 = ImageTk.PhotoImage(Image.open("image\\AI_love.png"))    
     label1 = Label(image=image_1)
@@ -385,7 +422,7 @@ def love_you():
     time.sleep(7)
 
 def func():
-    image1 = Image.open("image\\AI.png")
+    image1 = Image.open("image\\AI_py3.png")
     image_1 = ImageTk.PhotoImage(image1)    
     label1 = Label(image=image_1)
     label1.image = image_1
@@ -393,14 +430,14 @@ def func():
     content="""
     Tôi có những chức năng sau đây:
     1. Chào hỏi
-    2. Hiển thị giờ 
-    3. Dự báo thời tiết 
+    2. Hiển thị thời 
+    3. Xem dự báo thời tiết
     4. Thời khóa biểu
     5. Thực hiện phép tính đơn giản 
     6. Thả thính crush
     7. Mở ứng dụng,mở website 
     8. Tìm kiếm thông tin trên google 
-    9. Mở video nhạc
+    9. Mở video trên youtube
     10.Tạm biệt"""
     speak(content)
     root.update()
@@ -421,10 +458,10 @@ def color1():
     root.update()
 #!!!!
 def info():
-    mbox.showinfo("Giới thiệu", "-Nhấn Micro để bắt đầu thực hiện nói với AI.\n-Nhấn Làm mới để xóa toàn bộ cuộc trò chuyện.\n-Bạn có thể thay đổi màu nền hoặc màu chữ ngẫu nhiên.\n-Tiếng Pip xuất hiện là lúc AI đang nghe bạn nói.\n-Nói 'dừng lại' để tạm hoãn cuộc trò chuyện. \n-Nhấn Thoát để tắt chương trình.")
+    mbox.showinfo("Giới thiệu", "-Nhấn Micro để bắt đầu thực hiện nói với Sun.\n-Nhấn Làm mới để xóa toàn bộ cuộc trò chuyện.\n-Bạn có thể thay đổi màu nền hoặc màu chữ ngẫu nhiên.\n-Tiếng Pip xuất hiện là lúc Sun đang nghe bạn nói.\n-Nói 'dừng lại' để tạm hoãn cuộc trò chuyện. \n-Nhấn Thoát để tắt chương trình.")
 
 def r_set():
-    image_1 = ImageTk.PhotoImage(Image.open("image\\AI.png"))    
+    image_1 = ImageTk.PhotoImage(Image.open("image\\AI_py3.png"))    
     label1 = Label(image=image_1)
     label1.image = image_1
     label1.place(x=7, y=43)
@@ -440,16 +477,16 @@ def ham_main():
         with speech_recognition.Microphone() as source:
             playsound.playsound("Ping.mp3", False)
             time.sleep(1)
-            print("AI:  Dang nghe ...")
+            print("Sun:  Đang nghe ...")
             audio = r.listen(source, phrase_time_limit=6)
-            print("AI:  ...")
+            print("Sun:  ...")
         try:
             you = r.recognize_google(audio, language="vi-VN")
-            print("\nYou: "+ you)	
+            print("\nYou: "+ you)   
             you = you.lower()
         except:
             ai_brain = "Tôi nghe không rõ. Bạn nói lại được không"
-            print("\nAI: " + ai_brain)
+            print("\nSun: " + ai_brain)
 
         text_area.insert(INSERT,"You: "+you+"\n")
         root.update()
@@ -468,8 +505,6 @@ def ham_main():
             open_website(you)
         elif "mở google và tìm kiếm" in you:
             open_google_and_search(you)
-        elif ("hôm nay" in you and "môn" in you) or ("ngày mai" in you and "môn" in you):
-            subject(you)
         elif ("thứ" in you and "môn" in you) or ("chủ nhật" in you and "môn" in you):
             subject_day(you)
         elif "nghe nhạc" in you or "xem phim" in you or "mở youtube" in you or "bài hát" in you:
@@ -487,9 +522,10 @@ def ham_main():
             time.sleep(0.5)
             playsound.playsound("Ping.mp3", False)
             time.sleep(0.5)
+            stop()
             break
         elif "hẹn gặp lại" in you or "tạm biệt" in you or "cảm ơn" in you:
-            ai_brain="Rất vui khi giúp đỡ bạn. Hẹn gặp lại bạn sau."
+            ai_brain="Rất vui khi được giúp đỡ bạn. Hẹn gặp lại bạn sau."
             speak(ai_brain)
             root.update()
             time.sleep(4)
@@ -517,7 +553,7 @@ class Example(Frame):
     
     def initUI(self):
 
-        self.parent.title("Trợ lí AI")
+        self.parent.title("Trợ lí Sun")
         self.style = Style()
         self.style.theme_use("default")
         
@@ -535,32 +571,32 @@ class Example(Frame):
         image_3 = ImageTk.PhotoImage(image3)  
         label = Label(image=image_3)
         label.image = image_3
-        label.place(x=388, y=470)
+        label.place(x=437, y=472)
 
         fts = Font(family='Times', size=11, weight='bold', slant='roman', underline=0, overstrike=0)
 
 
-        closeButton = Button(self, text="Thoát",command = exit,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        closeButton = Button(self, text="Thoát",command = exit,width=6,fg="black", bg="#48DCFF",bd=3, font=fts)
         closeButton.pack(side=RIGHT, padx=11, pady=10)
 
 
-        okButton = Button(self, text="Micro",command = ham_main,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        okButton = Button(self, text="Micro",command = ham_main,width=8,fg="black", bg="#48DCFF",bd=3, font=fts)
         okButton.pack(side=RIGHT, padx=11, pady=10)
 
 
-        doimau = Button(self,text="Đổi màu nền",command = color,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        doimau = Button(self,text="Đổi màu nền",command = color,width=9,fg="black", bg="#48DCFF",bd=3, font=fts)
         doimau.pack(side=RIGHT,padx=11, pady=10)
 
 
-        doimau = Button(self,text="Đổi màu chữ",command = color1,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        doimau = Button(self,text="Đổi màu chữ",command = color1,width=9,fg="black", bg="#48DCFF",bd=3, font=fts)
         doimau.pack(side=RIGHT,padx=11, pady=10)
 
 
-        thongtin = Button(self,text="Giới thiệu",command = info,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        thongtin = Button(self,text="Giới thiệu",command = info,width=8,fg="black", bg="#48DCFF",bd=3, font=fts)
         thongtin.pack(side=RIGHT,padx=11, pady=10)
 
 
-        lammoi = Button(self,text="Làm mới",command = r_set,width=10,fg="black", bg="#48DCFF",bd=3, font=fts)
+        lammoi = Button(self,text="Làm mới",command = r_set,width=8,fg="black", bg="#48DCFF",bd=3, font=fts)
         lammoi.pack(side=RIGHT,padx=11, pady=10)
 
         # self.pack(fill=BOTH, expand=1)   
@@ -572,12 +608,10 @@ class Example(Frame):
         label1.place(x=7, y=43)
 
         l = Label(root, text='Lịch sử trò chuyện', fg='black', bg='#48DCFF', font=fts)
-        l.place(x = 750, y = 10, width=120, height=35)
+        l.place(x = 750, y = 10, width=130, height=35)
 
 
 root.geometry("1000x510+500+50")
 root.resizable(False, False)
 app = Example(root)
 root.mainloop()
-
-#http://api.openweathermap.org/data/2.5/weather?appid=b0d4f9bfd2bbc40d10976e6fd3ea7514&q=da%20nang&units=metric
