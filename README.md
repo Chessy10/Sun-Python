@@ -1,5 +1,5 @@
 # Sun-Python : Trợ lý ảo đơn giản
-'''
+```
 #truy cập, xử lí file hệ thống
 import os
 #Chuyển văn bản thành âm thanh
@@ -33,4 +33,4 @@ from tkinter import *
 from PIL import Image, ImageTk
 import tkinter.messagebox as mbox
 from tkinter.font import Font
-'''
+```
